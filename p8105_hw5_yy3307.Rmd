@@ -127,3 +127,17 @@ Baltimore_homicide =
 ```
 
 We get the `estimated proportion` of unsolved homicides in Baltimore, MD is about `r Baltimore_homicide$estimate * 100`%, with a confidence interval from (`r Baltimore_homicide$conf.low * 100`%, `r Baltimore_homicide$conf.high * 100`%).
+
+The we are going to expand the estimation proportion of unsolved homicides for all cities in the dataset. I'll use `map2` function to setup a nested tibble with the test statistics I wanted for each cities, and then use the `map` function to apply `broom:tidy` function to all tibbles. After `unnest` the tibbles, we can select the variables that we want to keep.
+
+```{r}
+cities_summary =
+  homicide_count %>%
+  mutate(
+    cities_est = map2(.x = total_unsolved_homicide, .y = total_homicide, ~prop.test(.x, .y)),
+    cities_est = map(.x = cities_est, ~broom::tidy(.x))
+  ) %>% 
+  unnest() %>%
+  select(city_state, estimate, conf.low, conf.high)
+```
+
