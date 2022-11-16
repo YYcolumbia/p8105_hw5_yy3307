@@ -190,4 +190,21 @@ Then are are going to `rerun` the model function to generate 5000 datasets with 
 sim_results_df = 
   rerun(5000, sim_mean_p(mu = 0)) %>% 
   bind_rows()
+
+sim_results_df
 ```
+
+We can also repeat the above with specific values of mu.
+
+```{r}
+sim_mu = 
+  expand.grid(
+    samp_mu = 1:6,
+    iteration = 1:5000
+  ) %>% 
+  mutate(
+    estimate_mu = map(.x = samp_mu, ~sim_mean_p(mu = .x))
+  ) %>%
+  unnest(estimate_mu)
+```
+
