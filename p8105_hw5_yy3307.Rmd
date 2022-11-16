@@ -73,9 +73,19 @@ This plot suggests high within-subject correlation -- subjects who start above a
 
 ## Problem 2
 
-First we need to import the `homicide` dataset.
+First we need to import the `homicide` dataset and clean-up the variable names.
 
-```{r}
-homicide_raw = read_csv("https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv")
+```{r, message = FALSE}
+homicide_raw = 
+  read_csv("https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv") %>% 
+  janitor::clean_names()
 ```
 
+To describe raw data, we need some basic inline R code to generate some info that we need.
+
+```{r}
+raw_row = nrow(homicide_raw)
+raw_col = ncol(homicide_raw)
+```
+
+The raw homicide dataset has `r raw_row` rows and `r raw_col` columns, including main variables of `reported_date`, victims' information such as `name, age, race, gender`, reported `city` and its corresponding geographic location `lat, lon`, and cases' `disposition`.
