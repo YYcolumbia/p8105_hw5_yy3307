@@ -141,3 +141,23 @@ cities_summary =
   select(city_state, estimate, conf.low, conf.high)
 ```
 
+We can use `fct_reorder` to reorganize cities according to the proportion of unsolved homicides. Then, we need to make a plot visualizing the estimations as `geom_point` and CI for each cities as `geom_errorbar`. 
+
+```{r}
+city_plot =
+  cities_summary %>%
+  mutate(city_state = fct_reorder(city_state, estimate)) %>% 
+  ggplot(aes(x = city_state, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high)) +
+  labs(
+    title = "Unsolved Homicide Estimate Proportion with CI for Each City",
+    y = "Unsolved Homicide Estimate Proportion",
+    x = "City",
+    caption = "Data from Washington Post"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), plot.title = element_text(hjust = 0.5))
+
+city_plot
+```
+
