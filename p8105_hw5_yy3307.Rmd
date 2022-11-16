@@ -30,7 +30,7 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 
 ## Problem 1
 
-The code chunk below imports the data in individual spreadsheets contained in `./data/zip_data/`. To do this, I create a dataframe that includes the list of all files in that directory and the complete path to each file. As a next step, I `map` over paths and import data using the `read_csv` function. Finally, I `unnest` the result of `map`.
+The code chunk below imports the data in individual spreadsheets contained in `./data`. To do this, I create a dataframe that includes the list of all files in that directory and the complete path to each file. As a next step, I `map` over paths and import data using the `read_csv` function. Finally, I `unnest` the result of `map`.
 
 ```{r, message = FALSE}
 full_df = 
@@ -70,3 +70,12 @@ tidy_df %>%
 ```
 
 This plot suggests high within-subject correlation -- subjects who start above average end up above average, and those that start below average end up below average. Subjects in the control group generally don't change over time, but those in the experiment group increase their outcome in a roughly linear way. 
+
+## Problem 2
+
+First we need to import the `homicide` dataset.
+
+```{r}
+homicide_raw = read_csv("https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv")
+```
+
