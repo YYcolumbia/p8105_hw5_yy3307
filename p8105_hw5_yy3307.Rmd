@@ -89,3 +89,24 @@ raw_col = ncol(homicide_raw)
 ```
 
 The raw homicide dataset has `r raw_row` rows and `r raw_col` columns, including main variables of `reported_date`, victims' information such as `name, age, race, gender`, reported `city` and its corresponding geographic location `lat, lon`, and cases' `disposition`.
+
+Then we want to analyze total number of homicides and unsolved homicides in each city state. First we need to add a `city_state` variable as a combination of the `city` and `state`. Then we can group the data by  `city_state` and count for number of total homicide and unsolved homicide in each city state.
+
+```{r}
+homicide_raw =
+  homicide_raw %>% 
+  mutate(
+    city_state = str_c(city, ", ", state)
+  )
+
+homicide_count =
+  homicide_raw %>%
+  group_by(city_state) %>%
+  summarize(
+    total_homicide = n(),
+    total_unsolved_homicide = sum(disposition == "Closed without arrest" | disposition == "Open/No arrest")
+  )
+
+homicide_count
+```
+
